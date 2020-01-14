@@ -110,8 +110,6 @@ func (mockService *MockNacosService) constructServices() {
 		// 	instanceCount = 20000
 		// }
 
-		totalInstanceCount += instanceCount
-
 		for i := 0; i < instanceCount; i++ {
 
 			ip := fmt.Sprintf("%d.%d.%d.%d",
@@ -127,12 +125,15 @@ func (mockService *MockNacosService) constructServices() {
 			}
 
 			// skip endpoints randomly according to the endpoints change ratio
-			if rand.Float64() < mockService.MockParams.MockEndpointChangeRatio {
+			ranNum := rand.Float64()
+			if ranNum < mockService.MockParams.MockEndpointChangeRatio {
 				continue
 			}
 
 			se.Endpoints = append(se.Endpoints, endpoint)
 		}
+
+		totalInstanceCount += len(se.Endpoints)
 
 		seAny, err := types.MarshalAny(se)
 		if err != nil {
