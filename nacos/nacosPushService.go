@@ -91,8 +91,9 @@ func (mockService *MockNacosService) constructServices() {
 	labels["SERIALIZETYPE"] = "hessian"
 	labels["ut"] = "UNZBMIX25G"
 
-	for count := 0; count < mockService.MockParams.MockServiceCount; count++ {
+	changed := 0
 
+	for count := 0; count < mockService.MockParams.MockServiceCount; count++ {
 		svcName := mockService.MockParams.MockServiceNamePrefix + "." + strconv.Itoa(count)
 		se := &v1alpha3.ServiceEntry{
 			Hosts:      []string{svcName + ".nacos"},
@@ -105,12 +106,14 @@ func (mockService *MockNacosService) constructServices() {
 
 		instanceCount := mockService.MockParams.MockAvgEndpointCount
 
+		inc := int(mockService.MockParams.MockEndpointChangeRatio * float64(instanceCount))
+		changed += inc
+
 		// //0.01% of the services have large number of endpoints:
 		// if count%10000 == 0 {
 		// 	instanceCount = 20000
 		// }
 
-		inc := int(mockService.MockParams.MockEndpointChangeRatio * float64(instanceCount))
 		for i := 0; i < instanceCount; i++ {
 			ip := fmt.Sprintf("%d.%d.%d.%d",
 				10, byte(i>>16), byte(i>>8), byte(i))
@@ -155,7 +158,7 @@ func (mockService *MockNacosService) constructServices() {
 	}
 
 	log.Println("Generated", mockService.MockParams.MockServiceCount, "services.")
-	log.Println("Total instance count", totalInstanceCount)
+	log.Println("Total instance count, changed: %d", totalInstanceCount, changed)
 }
 
 func (mockService *MockNacosService) notifyServiceChange() {
