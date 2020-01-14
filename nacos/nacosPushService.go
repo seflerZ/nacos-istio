@@ -103,7 +103,7 @@ func (mockService *MockNacosService) constructServices() {
 
 		rand.Seed(time.Now().Unix())
 
-		instanceCount := rand.Intn(10) + mockService.MockParams.MockAvgEndpointCount - 10
+		instanceCount := mockService.MockParams.MockAvgEndpointCount
 
 		// //0.01% of the services have large number of endpoints:
 		// if count%10000 == 0 {
