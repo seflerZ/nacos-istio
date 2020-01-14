@@ -61,8 +61,8 @@ func (mockService *MockNacosService) SubscribeService(ServiceName string, Subscr
  */
 func (mockService *MockNacosService) constructServices() {
 
-	collection := "istio/networking/v1alpha3/serviceentries"
-	incremental := false
+	collection := "istio/networking/v1alpha3/synthetic/serviceentries"
+	incremental := true
 
 	mockService.Resources = &v1alpha1.Resources{
 		Collection:  collection,
@@ -148,6 +148,8 @@ func (mockService *MockNacosService) constructServices() {
 			Metadata: &v1alpha1.Metadata{
 				Annotations: map[string]string{
 					"virtual": "1",
+					"networking.alpha.istio.io/serviceVersion": "1",
+					"networking.alpha.istio.io/endpointsVersion": strconv.FormatInt(time.Now().UnixNano()/1000, 10),
 				},
 				Name: "nacos" + "/" + svcName, // goes to model.Config.Name and Namespace - of course different syntax
 				Version: fmt.Sprintf("%d", rand.Uint64()),
