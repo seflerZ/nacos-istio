@@ -173,8 +173,10 @@ func (mockService *MockNacosService) notifyServiceChange() {
 		incrementalResources.Resources = append(incrementalResources.Resources, resource)
 	}
 
+	ix := 0
 	for {
 		mockService.constructServices()
+		mockService.Resources.SystemVersionInfo = fmt.Sprintf("%d", ix)
 
 		for _, callback := range mockService.callbacks {
 			if mockService.MockParams.MockTestIncremental {
@@ -184,5 +186,7 @@ func (mockService *MockNacosService) notifyServiceChange() {
 			}
 		}
 		time.Sleep(time.Duration(mockService.MockParams.MockPushDelay) * time.Millisecond)
+
+		ix++
 	}
 }
