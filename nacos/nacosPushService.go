@@ -147,6 +147,7 @@ func (mockService *MockNacosService) constructServices() {
 					"virtual": "1",
 				},
 				Name: "nacos" + "/" + svcName, // goes to model.Config.Name and Namespace - of course different syntax
+				Version: fmt.Sprintf("%d", rand.Uint64()),
 			},
 		}
 
@@ -173,10 +174,8 @@ func (mockService *MockNacosService) notifyServiceChange() {
 		incrementalResources.Resources = append(incrementalResources.Resources, resource)
 	}
 
-	ix := 0
 	for {
 		mockService.constructServices()
-		mockService.Resources.SystemVersionInfo = fmt.Sprintf("%d", ix)
 
 		for _, callback := range mockService.callbacks {
 			if mockService.MockParams.MockTestIncremental {
@@ -186,7 +185,5 @@ func (mockService *MockNacosService) notifyServiceChange() {
 			}
 		}
 		time.Sleep(time.Duration(mockService.MockParams.MockPushDelay) * time.Millisecond)
-
-		ix++
 	}
 }
