@@ -138,6 +138,10 @@ func NewService(addr string, mockParams common.MockParams) *NacosMcpService {
 		}
 
 		for _, con := range nacosMcpService.clients {
+			for key := range con.Watched {
+				log.Println("con: ", con.ConID, "watched:", key)
+			}
+
 
 			if con.LastRequestAcked == false {
 				//log.Println("Last request not finished, ignore.")
@@ -150,7 +154,7 @@ func NewService(addr string, mockParams common.MockParams) *NacosMcpService {
 				", request time:", con.LastRequestTime, ", connection id:", con.ConID)
 			resources.Nonce = fmt.Sprintf("%v", time.Now())
 			con.NonceSent[resources.Collection] = resources.Nonce
-			_ = con.Stream.Send(resources)
+			// _ = con.Stream.Send(resources)
 		}
 	})
 
