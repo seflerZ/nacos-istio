@@ -257,15 +257,15 @@ func (mcps *mcpStream) Process(s *NacosMcpService, con *Connection, msg proto.Me
 
 		if lastNonce == req.ResponseNonce {
 
-			if rtype == ServiceEntriesType {
-				log.Println("ACK of:", con.LastRequestTime, " used time(microsecond):", time.Now().UnixNano()/1000-con.LastRequestTime, "\n")
-				con.LastRequestAcked = true
+			// if rtype == ServiceEntriesType {
+			log.Println("ACK of:", con.LastRequestTime, " used time(microsecond):", time.Now().UnixNano()/1000-con.LastRequestTime, "\n")
+			con.LastRequestAcked = true
 
-				acks.With(prometheus.Labels{"type": rtype}).Add(1)
-				con.mu.Lock()
-				con.NonceAcked[rtype] = req.ResponseNonce
-				con.mu.Unlock()
-			}
+			acks.With(prometheus.Labels{"type": rtype}).Add(1)
+			con.mu.Lock()
+			con.NonceAcked[rtype] = req.ResponseNonce
+			con.mu.Unlock()
+			// }
 
 			return nil
 		} else {
