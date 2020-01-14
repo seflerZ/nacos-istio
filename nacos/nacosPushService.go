@@ -113,7 +113,7 @@ func (mockService *MockNacosService) constructServices() {
 		for i := 0; i < instanceCount; i++ {
 
 			ip := fmt.Sprintf("%d.%d.%d.%d",
-				byte(i>>24), byte(i>>16), byte(i>>8), byte(i))
+				10, byte(i>>16), byte(i>>8), byte(i))
 
 			endpoint := &v1alpha3.ServiceEntry_Endpoint{
 				Labels: labels,
