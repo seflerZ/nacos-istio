@@ -33,16 +33,19 @@ func main() {
 
 	mockIncrementalRatio := flag.Int("mockIncrementalRatio", 0, "ratio of incremental push services")
 
+	mockEndpointChangeRatio := flag.Float64("mockEndpointChangeRatio", 0, "the ratio of endpoint changes of endpoints within each service")
+
 	flag.Parse()
 
 	mockParams := &common.MockParams{
-		Mocked:                *mocked,
-		MockServiceCount:      *mockServiceCount,
-		MockAvgEndpointCount:  *mockAvgEndpointCount,
-		MockPushDelay:         *mockPushDelay,
-		MockServiceNamePrefix: *mockServiceNamePrefix,
-		MockTestIncremental:   *mockTestIncremental,
-		MockIncrementalRatio:  *mockIncrementalRatio,
+		Mocked:                  *mocked,
+		MockServiceCount:        *mockServiceCount,
+		MockAvgEndpointCount:    *mockAvgEndpointCount,
+		MockPushDelay:           *mockPushDelay,
+		MockServiceNamePrefix:   *mockServiceNamePrefix,
+		MockTestIncremental:     *mockTestIncremental,
+		MockIncrementalRatio:    *mockIncrementalRatio,
+		MockEndpointChangeRatio: *mockEndpointChangeRatio,
 	}
 
 	a := service.NewService(*grpcAddr, *mockParams)

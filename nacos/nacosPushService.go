@@ -105,10 +105,10 @@ func (mockService *MockNacosService) constructServices() {
 
 		instanceCount := rand.Intn(10) + mockService.MockParams.MockAvgEndpointCount - 10
 
-		//0.01% of the services have large number of endpoints:
-		if count%10000 == 0 {
-			instanceCount = 20000
-		}
+		// //0.01% of the services have large number of endpoints:
+		// if count%10000 == 0 {
+		// 	instanceCount = 20000
+		// }
 
 		totalInstanceCount += instanceCount
 
@@ -124,6 +124,11 @@ func (mockService *MockNacosService) constructServices() {
 			endpoint.Address = ip
 			endpoint.Ports = map[string]uint32{
 				"http": uint32(8080),
+			}
+
+			// skip endpoints randomly according to the endpoints change ratio
+			if rand.Float64() < mockService.MockParams.MockEndpointChangeRatio {
+				continue
 			}
 
 			se.Endpoints = append(se.Endpoints, endpoint)
@@ -168,6 +173,8 @@ func (mockService *MockNacosService) notifyServiceChange() {
 	}
 
 	for {
+		mockService.constructServices()
+
 		for _, callback := range mockService.callbacks {
 			if mockService.MockParams.MockTestIncremental {
 				go callback(incrementalResources, nil)
