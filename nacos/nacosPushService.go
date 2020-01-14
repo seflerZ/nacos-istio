@@ -158,7 +158,7 @@ func (mockService *MockNacosService) constructServices() {
 	}
 
 	log.Println("Generated", mockService.MockParams.MockServiceCount, "services.")
-	log.Println("Total instance count, changed: %d", totalInstanceCount, changed)
+	log.Println(fmt.Sprintf("Total instance count, changed: %d", totalInstanceCount, changed))
 }
 
 func (mockService *MockNacosService) notifyServiceChange() {
