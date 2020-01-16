@@ -154,6 +154,7 @@ func (mockService *MockNacosService) constructServices() {
 					"networking.alpha.istio.io/serviceVersion": "1",
 				},
 				Name: "nacos" + "/" + svcName, // goes to model.Config.Name and Namespace - of course different syntax
+				CreateTime: &types.Timestamp{Seconds: 10},
 			},
 		}
 
