@@ -96,7 +96,7 @@ func (mockService *MockNacosService) constructServices() {
 	for count := 0; count < mockService.MockParams.MockServiceCount; count++ {
 		svcName := mockService.MockParams.MockServiceNamePrefix + "." + strconv.Itoa(count)
 		se := &v1alpha3.ServiceEntry{
-			Hosts:      []string{svcName},
+			Hosts:      []string{svcName + ".nacos"},
 			Resolution: v1alpha3.ServiceEntry_STATIC,
 			Location:   v1alpha3.ServiceEntry_MESH_INTERNAL,
 			Ports:      []*v1alpha3.Port{port},
@@ -150,7 +150,7 @@ func (mockService *MockNacosService) constructServices() {
 					"virtual": "1",
 					"networking.alpha.istio.io/serviceVersion": "1",
 				},
-				Name: "nacos" + "/" + svcName, // goes to model.Config.Name and Namespace - of course different syntax
+				Name: "nacos" + "/" + svcName + ".nacos", // goes to model.Config.Name and Namespace - of course different syntax
 				Version: fmt.Sprintf("%d", rand.Uint64()),
 				CreateTime: &types.Timestamp{Seconds: 0},
 			},
