@@ -154,7 +154,6 @@ func (mockService *MockNacosService) constructServices() {
 					"networking.alpha.istio.io/serviceVersion": "1",
 				},
 				Name: "nacos" + "/" + svcName, // goes to model.Config.Name and Namespace - of course different syntax
-				Version: fmt.Sprintf("%d", rand.Uint64()),
 			},
 		}
 
