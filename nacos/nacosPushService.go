@@ -61,8 +61,11 @@ func (mockService *MockNacosService) SubscribeService(ServiceName string, Subscr
  */
 func (mockService *MockNacosService) constructServices() {
 
-	collection := "istio/networking/v1alpha3/synthetic/serviceentries"
-	incremental := true
+	// collection := "istio/networking/v1alpha3/synthetic/serviceentries"
+	// incremental := true
+
+	collection := "istio/networking/v1alpha3/serviceentries"
+	incremental := false
 
 	mockService.Resources = &v1alpha1.Resources{
 		Collection:  collection,

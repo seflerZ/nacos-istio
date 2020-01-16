@@ -1,7 +1,7 @@
 package service
 
 import (
-	"strings"
+	// "strings"
 	"context"
 	"errors"
 	"fmt"
@@ -139,9 +139,9 @@ func NewService(addr string, mockParams common.MockParams) *NacosMcpService {
 		}
 
 		for _, con := range nacosMcpService.clients {
-			if !strings.HasPrefix(con.NodeID, "SSEMCP") {
-				continue
-			}
+			// if !strings.HasPrefix(con.NodeID, "SSEMCP") {
+			// 	continue
+			// }
 
 			if con.LastRequestAcked == false {
 				//log.Println("Last request not finished, ignore.")
