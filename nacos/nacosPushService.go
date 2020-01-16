@@ -96,7 +96,7 @@ func (mockService *MockNacosService) constructServices() {
 	for count := 0; count < mockService.MockParams.MockServiceCount; count++ {
 		svcName := mockService.MockParams.MockServiceNamePrefix + "." + strconv.Itoa(count)
 		se := &v1alpha3.ServiceEntry{
-			Hosts:      []string{svcName + ".nacos.svc.cluster.local"},
+			Hosts:      []string{svcName},
 			Resolution: v1alpha3.ServiceEntry_STATIC,
 			Location:   v1alpha3.ServiceEntry_MESH_INTERNAL,
 			Ports:      []*v1alpha3.Port{port},
