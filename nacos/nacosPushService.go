@@ -106,8 +106,8 @@ func (mockService *MockNacosService) constructServices() {
 
 		instanceCount := mockService.MockParams.MockAvgEndpointCount
 
-		inc := int(mockService.MockParams.MockEndpointChangeRatio * float64(instanceCount))
-		changed += inc
+		// inc := int(mockService.MockParams.MockEndpointChangeRatio * float64(instanceCount))
+		// changed += inc
 
 		// //0.01% of the services have large number of endpoints:
 		// if count%10000 == 0 {
@@ -127,10 +127,15 @@ func (mockService *MockNacosService) constructServices() {
 				"http": uint32(8080),
 			}
 
-			if i < inc {
+			// if i < inc {
+			// 	endpoint.Weight = rand.Uint32()
+			// } else {
+			// 	endpoint.Weight = 1
+			// }
+
+			if rand.Float32() < float32(mockService.MockParams.MockEndpointChangeRatio / 2.0) {
 				endpoint.Weight = rand.Uint32()
-			} else {
-				endpoint.Weight = 1
+				changed++
 			}
 
 			se.Endpoints = append(se.Endpoints, endpoint)
