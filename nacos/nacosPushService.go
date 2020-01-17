@@ -106,13 +106,19 @@ func (mockService *MockNacosService) constructServices() {
 
 		instanceCount := mockService.MockParams.MockAvgEndpointCount
 
-		// inc := int(mockService.MockParams.MockEndpointChangeRatio * float64(instanceCount))
+		inc := int(mockService.MockParams.MockEndpointChangeRatio * float64(instanceCount))
 		// changed += inc
 
 		// //0.01% of the services have large number of endpoints:
 		// if count%10000 == 0 {
 		// 	instanceCount = 20000
 		// }
+		b := int(inc/2)
+		m := make(map[int]struct{})
+		for i:=0;i<b;i++ {
+			index := int(rand.Uint32() % uint32(instanceCount))
+			m[index] = struct{}{}
+		}
 
 		for i := 0; i < instanceCount; i++ {
 			ip := fmt.Sprintf("%d.%d.%d.%d",
@@ -133,7 +139,7 @@ func (mockService *MockNacosService) constructServices() {
 			// 	endpoint.Weight = 1
 			// }
 
-			if rand.Float32() < float32(mockService.MockParams.MockEndpointChangeRatio / 2.0) {
+			if _, f := m[i]; f {
 				endpoint.Weight = rand.Uint32()
 				changed++
 			}
