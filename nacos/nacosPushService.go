@@ -96,7 +96,7 @@ func (mockService *MockNacosService) constructServices() {
 	for count := 0; count < mockService.MockParams.MockServiceCount; count++ {
 		svcName := mockService.MockParams.MockServiceNamePrefix + "." + strconv.Itoa(count)
 		se := &v1alpha3.ServiceEntry{
-			Hosts:      []string{svcName + ".nacos"},
+			Hosts:      []string{svcName + ".nacos:1.0.0:HSF"},
 			Resolution: v1alpha3.ServiceEntry_STATIC,
 			Location:   v1alpha3.ServiceEntry_MESH_INTERNAL,
 			Ports:      []*v1alpha3.Port{port},
@@ -113,9 +113,9 @@ func (mockService *MockNacosService) constructServices() {
 		// if count%10000 == 0 {
 		// 	instanceCount = 20000
 		// }
-		b := int(inc/2)
+		b := int(inc / 2)
 		m := make(map[int]struct{})
-		for i:=0;i<b;i++ {
+		for i := 0; i < b; i++ {
 			index := int(rand.Uint32() % uint32(instanceCount))
 			m[index] = struct{}{}
 		}
@@ -161,8 +161,8 @@ func (mockService *MockNacosService) constructServices() {
 					"virtual": "1",
 					"networking.alpha.istio.io/serviceVersion": "1",
 				},
-				Name: "nacos" + "/" + svcName + ".nacos", // goes to model.Config.Name and Namespace - of course different syntax
-				Version: fmt.Sprintf("%d", rand.Uint64()),
+				Name:       "nacos" + "/" + svcName + ".nacos", // goes to model.Config.Name and Namespace - of course different syntax
+				Version:    fmt.Sprintf("%d", rand.Uint64()),
 				CreateTime: &types.Timestamp{Seconds: 0},
 			},
 		}
